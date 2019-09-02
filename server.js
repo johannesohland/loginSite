@@ -15,26 +15,29 @@ app.listen(HTTP_PORT, () => {
 
 app.use(express.static('public'))
 
-app.get("/loginsite", (req, res, next) => {
-  var sql = "select * from cars"
-  var params = []
-  db.all(sql, params, (err, rows) => {
-      if (err) {
-        res.status(400).json({"error":err.message});
-        return;
-      }
-      res.json({
-          "message":"success",
-          "data":rows
-      })
-    });
-});
+
+// app.use(express.static('public'))
+
+// app.get("/loginsite", (req, res, next) => {
+//   var sql = "select * from cars"
+//   var params = []
+//   db.all(sql, params, (err, rows) => {
+//       if (err) {
+//         res.status(400).json({"error":err.message});
+//         return;
+//       }
+//       res.json({
+//           "message":"success",
+//           "data":rows
+//       })
+//     });
+// });
 
 
-app.get("/api/cars/make/:make", (req, res, next) => {
-    var sql = "select * from cars where make = ?"
-    var params = [req.params.make]
-    db.all(sql, params, (err, row) => {
+app.post("/api/loginsite", (req, res, next) => {
+    var sql = "select * from users where = username"
+    //var params = [req.params.make]
+    db.all(sql, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
           return;
