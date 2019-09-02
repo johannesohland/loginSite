@@ -34,7 +34,7 @@ app.use(express.static('public'))
 // });
 
 
-app.post("/api/loginsite", (req, res, next) => {
+app.post("/login", (req, res, next) => {
     var sql = "select * from users where = username"
     //var params = [req.params.make]
     db.all(sql, (err, row) => {
@@ -47,10 +47,17 @@ app.post("/api/loginsite", (req, res, next) => {
             "data":row
         })
       });
+
+    console.log(req.body.username);
+    console.log(req.body.password);
+    
+    res.json({
+                "message":"success",
+             })
 });
 
 
-app.post("loginsite/:id", (req, res, next) => {
+app.post("logout/:id", (req, res, next) => {
     var sql = "select * from users where id = ?"
     var params = [req.params.id]
     db.post(sql, params, (err, row) => {
