@@ -55,10 +55,12 @@
                 alert("Please fill in all the fields");
             } else {
                 $.post(`/login/${usernameInput}/${passwordInput}`, function(result) {
+                    var id = result.id;
                     if(result == false){
                         alert("Invalid username or password")
                     }
                     window.location.href = "main.html";
+                    localStorage.setItem("loginID", id);
                 });  
             }
             

@@ -35,12 +35,13 @@
 </head>
 <body style="display:flex;justify-content:center;">
     <h1>You are logged in on the site</h1>
-    <button onclick="logout()">Logout</button>
+    <button onclick="logout(localStorage.getItem('loginID'))">Logout</button>
     
         
     <script>
-        function logout(){
-            
+        function logout(id){
+            $.post(`/logout/${id}`, function(result) {
+            });
         }
     </script>
 </body>
