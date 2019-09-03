@@ -25,28 +25,78 @@
             align-items:center;
             flex-direction:column;
             font-family:Arial, Helvetica, sans-serif;
+            
         }
+
+        main{
+            display:flex;
+            flex-direction:column;
+        }
+
         #mainLogin{
             display:flex;
             flex-direction:column;
+        }
+
+        .inputField{
+            min-height:20px;
+            padding:5px;
+            background-color:lightgray;
+            border:1px white hidden;
+            border-radius:2px;
+            box-shadow:1.5px 1.5px 1.5px #000;
+            margin-top:10px;
+            margin-bottom:10px;
+            outline:none;
+        }
+
+        #loginBtn{
+            min-height:20px;
+            padding:5px;
+            outline:none;
+            background-color:#3166c7;
+            color:white;
+            border:1px hidden;
+            border-radius:2px;
+            box-shadow: 1.5px 1.5px 1.5px #000;
+        }
+
+        #loginBtn:hover{
+            background-color:#3c79eb;
+        }
+
+        #loginBtn:active{
+            background-color:#2953a1;
+            box-shadow:0.7px 0.7px 0.7px #000;
         }
         
     </style>
 </head>
 <body style="display:flex;justify-content:center;">
-    <h1>Login site</h1>
-    <br>
-    <form id="mainLogin" onsubmit="login()">
-        <label for="username">Username</label>
-        <input name="username" id="userInput" type="text">
+    <div id="loginDiv">
+        <h1>Login site</h1>
+        <br>
+        <form id="mainLogin" onsubmit="login()">
+            <label for="username">Username</label>
+            <input name="username" id="userInput" type="text" class="inputField">
 
-        <label for="password">Password</label>
-        <input name="password" id="passInput" type="password">
+            <label for="password">Password</label>
+            <input name="password" id="passInput" type="password" class="inputField">
 
-        <input type="submit" value="Login" id="loginBtn">
-    </form>
+            <input type="submit" value="Login" id="loginBtn">
+        </form>
+    </div>
+    <main id="mainSite" hidden>
+        <h1>Main site</h1>
+        <button onclick="logout()">Logout</button>
+    </main>
         
     <script>
+        $("document").ready(function(){
+            $("#loginDiv").show();
+            $("#mainSite").hide();
+        })
+
         function login(){
             event.preventDefault();
             var usernameInput = $('#userInput').val();
@@ -56,19 +106,36 @@
                 alert("Please fill in all the fields");
             } else {
                 $.post(`/login`,{username:usernameInput, password:passwordInput}, function(result) {
-                    console.log(result);
+                    console.log(result.userid);
                     var id = result.id;
-                    console.log(id);
-                    /*if(result == false){
+                    if(result.userid){
+                        $("#loginDiv").hide();
+                        $("#mainSite").show();
+                        currentID = result.userid;
+                    } else {
                         alert("Invalid username or password")
                     }
-                    */
-                    window.location.href = "main.html";
-                    localStorage.setItem("loginID", id);
+                    // window.location.href = "main.html";
+                    // localStorage.setItem("loginID", id);
                 });  
-            }
-            
+            }    
         }
+
+        var currentID = 0;
+
+        function logout(){    
+            $.post(`/logout`,{id:currentID}, function(result) {
+                    console.log(currentID + " logged off");
+                    $("#loginDiv").show();
+                    $("#mainSite").hide();
+                    
+                    // window.location.href = "main.html";
+                    // localStorage.setItem("loginID", id);
+
+                });  
+            }    
+        
+        
     </script>
 </body>
 </html>

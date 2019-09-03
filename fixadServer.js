@@ -35,24 +35,20 @@ app.use(express.static('public'))
 
 
 app.post("/login", (req, res, next) => {
-    console.log("First stop");
-    var sql = `SELECT id,COUNT(*) AS logged FROM users WHERE username='${req.body.username}' and password='${req.body.password}'`;
-    // var params = [req.params.username];
+    console.log("First stop")
+    var sql = "SELECT COUNT(*) AS logger FROM users WHERE username='bob' and password='123'"
+    // var params = [req.params.username]
 
-      db.get(sql, (err, row) => {
+      db.all(sql, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
-
         console.log(row);
-        var userid = 0;
-        if(row.logged){
-          userid = row.id;
-        }
+        
         
         res.json({
-            "userid":userid,
+            "message":"success",
         })
       });
     console.log(req.body.username);
@@ -60,10 +56,10 @@ app.post("/login", (req, res, next) => {
 });
 
 
-app.post("/logout", (req, res, next) => {
-    var sql = "SELECT * FROM users WHERE id = ?"
+app.post("logout/:id", (req, res, next) => {
+    var sql = "select * from users where id = ?"
     var params = [req.params.id]
-    db.get(sql, params, (err, row) => {
+    db.post(sql, params, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
           return;
