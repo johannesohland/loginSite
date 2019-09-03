@@ -40,6 +40,9 @@ app.post("/login", (req, res, next) => {
     // var params = [req.params.username]
     db.get(sql, (err, row) => {
         console.log("Second stop")
+    var sql = "select * from users where = username='bob' and password='123'"
+    var params = [req.params.username]
+    db.all(sql, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
           return;
