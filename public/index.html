@@ -125,10 +125,15 @@
 
         function logout(){    
             $.post(`/logout`,{id:currentID}, function(result) {
-                    console.log(currentID + " logged off");
-                    $("#loginDiv").show();
-                    $("#mainSite").hide();
                     
+                    if(result.success){
+                        $("#loginDiv").show();
+                        $("#mainSite").hide();
+                        $("#userInput").val("");
+                        $("#passInput").val("");
+                        console.log("User with ID " + currentID + " has logged off");
+                    }
+
                     // window.location.href = "main.html";
                     // localStorage.setItem("loginID", id);
 

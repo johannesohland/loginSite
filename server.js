@@ -37,7 +37,7 @@ app.use(express.static('public'))
 app.post("/login", (req, res, next) => {
     console.log("First stop");
     var sql = `SELECT id,COUNT(*) AS logged FROM users WHERE username='${req.body.username}' and password='${req.body.password}'`;
-    // var params = [req.params.username];
+    
 
       db.get(sql, (err, row) => {
         if (err) {
@@ -61,16 +61,18 @@ app.post("/login", (req, res, next) => {
 
 
 app.post("/logout", (req, res, next) => {
-    var sql = "SELECT * FROM users WHERE id = ?"
-    var params = [req.params.id]
-    db.get(sql, params, (err, row) => {
+    var sql = `SELECT COUNT(*) AS usercount FROM users WHERE id = ${req.body.id}`
+    db.get(sql, (err, row) => {
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
+        var success = false;
+        if(row.usercount){
+          success = true;
+        }
         res.json({
-            "message":"success",
-            "data":row
+            "success":success,
         })
       });
 });
