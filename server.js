@@ -35,14 +35,17 @@ app.use(express.static('public'))
 
 
 app.post("/login", (req, res, next) => {
-    var sql = "select * from users where = username='bob' and password='123'"
-    var params = [req.params.username]
+    console.log("First stop")
+    var sql = "SELECT COUNT(*) AS logger FROM users WHERE username='bob' and password='123'"
+    // var params = [req.params.username]
     db.get(sql, (err, row) => {
+        console.log("Second stop")
         if (err) {
           res.status(400).json({"error":err.message});
           return;
         }
         console.log(row);
+        
         
         res.json({
             "message":"success",
@@ -52,10 +55,6 @@ app.post("/login", (req, res, next) => {
 
     console.log(req.body.username);
     console.log(req.body.password);
-    
-    res.json({
-                "message":"success",
-             })
 });
 
 
