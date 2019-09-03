@@ -54,11 +54,14 @@
             if(usernameInput.length == 0 || passwordInput.length == 0){
                 alert("Please fill in all the fields");
             } else {
-                $.post(`/login/${usernameInput}/${passwordInput}`, function(result) {
+                $.post(`/login`,{username:usernameInput, password:passwordInput}, function(result) {
+                    console.log(result);
                     var id = result.id;
-                    if(result == false){
+                    console.log(id);
+                    /*if(result == false){
                         alert("Invalid username or password")
                     }
+                    */
                     window.location.href = "main.html";
                     localStorage.setItem("loginID", id);
                 });  
